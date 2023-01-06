@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8757415645632275013}
   - component: {fileID: 7686096906666677154}
-  - component: {fileID: 4685556559816440118}
+  - component: {fileID: 2392728403869768326}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: OuterWall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 305089378, guid: 1ae1cee2100f9824e92cc6d8990778f0, type: 3}
+  m_Sprite: {fileID: 192278570, guid: 1ae1cee2100f9824e92cc6d8990778f0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &4685556559816440118
+--- !u!61 &2392728403869768326
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

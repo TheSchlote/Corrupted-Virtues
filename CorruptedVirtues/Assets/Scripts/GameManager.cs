@@ -6,11 +6,21 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public BoardManager boardScript;
+    public static GameManager instance = null;
 
     private int level = 3;
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(instance);
+        }
+        DontDestroyOnLoad(gameObject);
         boardScript = GetComponent<BoardManager>();
         InitGame();
     }
@@ -18,17 +28,5 @@ public class GameManager : MonoBehaviour
     private void InitGame()
     {
         boardScript.SetupScene(level);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

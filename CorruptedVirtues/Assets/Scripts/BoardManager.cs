@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,9 +11,9 @@ public class BoardManager : MonoBehaviour
         public int minimum;
         public int maximum;
 
-        public Count (int min, int max)
+        public Count(int min, int max)
         {
-            minimum = min; 
+            minimum = min;
             maximum = max;
         }
     }
@@ -22,25 +21,27 @@ public class BoardManager : MonoBehaviour
     public int columns = 8;
     public int rows = 8;
     public Count wallCount = new Count(5, 9);
-    public GameObject[] floorTiles;
-    public GameObject[] outerWallTiles;
+    //public Count foodCount = new Count(1, 5);
+    public GameObject exit;
+    public GameObject[] floorTiles, wallTiles, foodTiles, enemyTiles, outerWallTiles;
 
     private Transform boardHolder;
-    private List<Vector3> gridPositions = new List<Vector3>();
+    private readonly List<Vector3> girdPositions = new List<Vector3>();
 
-    void InitializeList()
+    void InitialiseList()
     {
-        gridPositions.Clear();
+        girdPositions.Clear();
+
         for (int x = 1; x < columns - 1; x++)
         {
             for (int y = 1; y < rows - 1; y++)
             {
-                gridPositions.Add(new Vector3(x, y, 0));
+                girdPositions.Add(new Vector3(x, y, 0f));
             }
         }
     }
 
-    private void BoardSetup()
+    void BoardSetup()
     {
         boardHolder = new GameObject("Board").transform;
 
@@ -48,28 +49,20 @@ public class BoardManager : MonoBehaviour
         {
             for (int y = -1; y < rows + 1; y++)
             {
-                GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
-                if(x==-1 || x== columns || y==-1 || y == rows)
+                GameObject toInstntiate = floorTiles[Random.Range(0, floorTiles.Length)];
+                if (x == -1 || x == columns || y == -1 || y == rows)
                 {
-                    toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
+                    toInstntiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
                 }
 
-                GameObject instance = Instantiate(toInstantiate, new Vector3(x,y,0), Quaternion.identity) as GameObject;
+                GameObject instance = Instantiate(toInstntiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
 
                 instance.transform.SetParent(boardHolder);
             }
         }
     }
 
-    Vector3 RandomPosition()
-    {
-        int randomIndex = Random.Range(0, gridPositions.Count);
-        Vector3 randomPosition = gridPositions[randomIndex];
-        gridPositions.RemoveAt(randomIndex);
-        return randomPosition;
-    }
-
-    void LayoutObjectsAtRandom(GameObject[] tileArray, int minimum, int maximum)
+    private void LayoutObjectAtRandom(GameObject[] tileArray, int minimum, int maximum)
     {
         int objectCount = Random.Range(minimum, maximum + 1);
 
@@ -81,24 +74,22 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    Vector3 RandomPosition()
+    {
+        int randomIndex = Random.Range(0, girdPositions.Count);
+        Vector3 randomPosition = girdPositions[randomIndex];
+        girdPositions.RemoveAt(randomIndex);
+        return randomPosition;
+    }
+
     public void SetupScene(int level)
     {
         BoardSetup();
-        InitializeList();
-        //LayoutObjectsAtRandom()
+        InitialiseList();
+        LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
+        //LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
         int enemyCount = (int)Mathf.Log(level, 2f);
-        
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
+        Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
     }
 }
